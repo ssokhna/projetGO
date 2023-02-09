@@ -1,6 +1,6 @@
 package main
 import "fmt"
-import "sync"
+//import "sync"
 import "time"
 
 type res struct {
@@ -10,8 +10,8 @@ type res struct {
 }
 
 func workers(id int,l1 int,l2 int,matA[][] int, matB[][] int, resultat chan<- res){
-	var wg sync.WaitGroup
-    defer wg.Done()
+	//var wg sync.WaitGroup
+    //defer wg.Done()
     var res_lignes [][]int
     for i :=l1; i<l2; i++{
         var res_ligne []int
@@ -29,21 +29,21 @@ func workers(id int,l1 int,l2 int,matA[][] int, matB[][] int, resultat chan<- re
 }
 
 
-
 func main(){
     mat1 := [][]int{{4,2,8,6},{4,3,4,3},{7,0,7,1},{5,7,3,5}}
     mat2 := [][]int{{5,3,0,6},{1,5,2,3},{1,8,2,3},{4,3,8,5}}
 
-    var wg sync.WaitGroup
+   // var wg sync.WaitGroup
 	resultat := make(chan res, 4)
-    wg.Add(4)
+    //wg.Add(1)
     start := time.Now()
 	go workers (1,0,1,mat1,mat2,resultat)
     go workers (2,1,2,mat1,mat2,resultat)
     go workers (3,2,3,mat1,mat2,resultat)
     go workers (4,3,4,mat1,mat2,resultat)
     fmt.Println(" 4 Worker Temps d'execution:", time.Since(start))
-    wg.Wait()
+    ///wg.Wait()
+    
 
     fmt.Println(" ---- ")
 
@@ -59,7 +59,7 @@ func main(){
     start2 := time.Now()
 	go workers (1,0,3,mat1,mat2,resultat)
     fmt.Println(" 1 Worker Temps d'execution:", time.Since(start2))
-
+   
     fmt.Println(" ---- ")
     var matC [][]int
     r := <- resultat
@@ -70,6 +70,6 @@ func main(){
     }
     fmt.Println (matC)
     
-    
 }
+
 
